@@ -1,14 +1,22 @@
 import './App.css';
 import './index.css';
-import { Button, Checkbox, IconButton, TextField, ThemeProvider, Tooltip, createTheme } from '@mui/material';
+import { Button, Checkbox, TextField, ThemeProvider, Tooltip, createTheme } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from 'react';
+import { PlaceCard } from './components/PlaceCard';
 
 const theme = createTheme({
   palette: {
     primary: {
       main: '#FF004F'
     }
+  },
+  typography: {
+    fontFamily: [
+      "Montserrat",
+      'Roboto',
+      'sans-serif',
+    ].join(',')
   }
 });
 
@@ -43,13 +51,11 @@ function App()
                 const long = coordinates.longitude;
               }, (error) =>
               {
-                
+
               });
 
               return;
             }
-
-
           }}>FIND</Button>
         </div>
         <div className='flex flex-center'>
@@ -66,6 +72,13 @@ function App()
           <Tooltip title='Using your current location allows better responses'>
             <InfoIcon />
           </Tooltip>
+        </div>
+        <div>
+          <PlaceCard />
+          <div style={{
+            height: '30px'
+          }}></div>
+          <PlaceCard loading/>
         </div>
       </div>
     </ThemeProvider>

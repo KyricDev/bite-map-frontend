@@ -46,3 +46,16 @@
   justify-content: center;
   align-items: center;
 }
+
+h4{
+  margin: 0;
+}
+
+.shadow {
+  box-shadow: 5px 5px 5px 5px black;
+}
+
+.hover-pointer:hover{
+  cursor: pointer;
+  box-shadow: 1px 1px 10px 1px rgb(150, 150, 150);
+}
