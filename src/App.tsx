@@ -4,6 +4,7 @@ import { Button, Checkbox, TextField, ThemeProvider, Tooltip, createTheme } from
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from 'react';
 import { PlaceCard } from './components/PlaceCard';
+import { searchUri, testUri } from './constants/api-uris';
 
 const theme = createTheme({
   palette: {
@@ -23,6 +24,7 @@ const theme = createTheme({
 function App()
 {
   const [canUseLocation, setCanUseLocation] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -41,6 +43,8 @@ function App()
           }}></div>
           <Button variant='contained' size='large' onClick={() =>
           {
+            setLoading(true);
+
             if (canUseLocation) {
               const geolocation = navigator.geolocation;
 
@@ -49,9 +53,20 @@ function App()
                 const coordinates = position.coords;
                 const lat = coordinates.latitude;
                 const long = coordinates.longitude;
+
+
+                fetch(searchUri, {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    'latitude': lat,
+                    'longitude': long,
+                  }),
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }
+                }).then(() => setLoading(false));
               }, (error) =>
               {
-
               });
 
               return;
@@ -73,13 +88,19 @@ function App()
             <InfoIcon />
           </Tooltip>
         </div>
-        <div>
-          <PlaceCard />
-          <div style={{
-            height: '30px'
-          }}></div>
-          <PlaceCard loading/>
-        </div>
+        {
+          loading ?
+            <div>
+              {[0, 1, 2,].map((value) =>
+              {
+                return <PlaceCard key={value} loading />;
+              })}
+            </div>
+            :
+            <div>
+              <PlaceCard />
+            </div>
+        }
       </div>
     </ThemeProvider>
   );

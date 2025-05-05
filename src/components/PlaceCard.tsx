@@ -11,13 +11,22 @@ import '../index.css';
 export function PlaceCard({ loading = false })
 {
     if (loading) {
-        return <Skeleton height={300} />;
+        return <Skeleton
+            height={300}
+            style={{
+                width: '30vw',
+                minWidth: '500px',
+                marginBottom: '20px',
+            }}
+        />;
     }
 
     return (
         <Card
             sx={{
                 padding: '20px',
+                width: '30vw',
+                minWidth: '500px'
             }}
             className="hover-pointer"
         >
