@@ -4,7 +4,7 @@ import { Button, Checkbox, TextField, ThemeProvider, Tooltip, createTheme } from
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from 'react';
 import { PlaceCard } from './components/PlaceCard';
-import { searchUri, testUri } from './constants/api-uris';
+import { SearchService } from '../services/search-service';
 
 const theme = createTheme({
   palette: {
@@ -25,6 +25,7 @@ function App()
 {
   const [canUseLocation, setCanUseLocation] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState('');
 
   return (
     <ThemeProvider theme={theme}>
@@ -36,6 +37,8 @@ function App()
           <TextField
             variant='outlined'
             label='Ask'
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
           >
           </TextField>
           <div style={{
@@ -54,17 +57,12 @@ function App()
                 const lat = coordinates.latitude;
                 const long = coordinates.longitude;
 
-
-                fetch(searchUri, {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    'latitude': lat,
-                    'longitude': long,
-                  }),
-                  headers: {
-                    'Content-Type': 'application/json'
-                  }
-                }).then(() => setLoading(false));
+                SearchService.searchLocation({
+                  latitude: lat,
+                  longitude: long,
+                  query: query,
+                })
+                  .then(() => setLoading(false));
               }, (error) =>
               {
               });
