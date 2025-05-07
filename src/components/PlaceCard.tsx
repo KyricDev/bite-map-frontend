@@ -11,6 +11,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import { toast } from "react-toastify";
 import { amber, yellow } from "@mui/material/colors";
+import { CardMedia } from "@mui/material";
 
 export function PlaceCard({
     loading = false,
@@ -35,13 +36,16 @@ export function PlaceCard({
         return <></>;
     }
 
+    const photo = restaurant.photos[0];
+    const image = photo !== undefined ? restaurant.photos[0].prefix + '1440x1080' +restaurant.photos[0].suffix : ''
+
     return (
         <Card
             sx={{
-                padding: '20px',
+                // padding: '20px',
                 width: '30vw',
                 minWidth: '500px',
-                marginBottom: '20px'
+                marginBottom: '20px',
             }}
             className="hover-pointer"
             onClick={() =>
@@ -57,6 +61,12 @@ export function PlaceCard({
                 window.open(restaurant.website, '_blank');
             }}
         >
+            <CardMedia 
+                component='img'
+                alt={`${restaurant.name} photo`}
+                height={200}
+                image={image}
+            />
             <CardHeader
                 title={restaurant.name}
                 subheader={restaurant.categories.map((category) =>
