@@ -9,6 +9,7 @@ import StarIcon from '@mui/icons-material/Star';
 import Tooltip from "@mui/material/Tooltip";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
+import { toast } from "react-toastify";
 
 export function PlaceCard({
     loading = false,
@@ -46,6 +47,10 @@ export function PlaceCard({
             {
                 const website = restaurant.website;
                 if (website === undefined) {
+                    toast(`No website found for ${restaurant.name}`, {
+                        type: 'info',
+                        position: 'bottom-right',
+                    });
                     return;
                 }
                 window.open(restaurant.website, '_blank');

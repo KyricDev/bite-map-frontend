@@ -7,6 +7,7 @@ import { PlaceCard } from './components/PlaceCard';
 import { SearchService } from './services/search-service';
 import { ResponseModel } from './models/Response';
 import { Restaurant } from './models/Restaurants';
+import { ToastContainer } from 'react-toastify';
 
 const theme = createTheme({
   palette: {
@@ -116,6 +117,7 @@ function App()
               }
             </div>
         }
+        <ToastContainer />
       </div>
     </ThemeProvider>
   );
