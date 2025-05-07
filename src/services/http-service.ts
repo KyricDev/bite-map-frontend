@@ -17,7 +17,6 @@ abstract class HttpService {
     
     static async get({
         uri,
-        body,
     }: {
         uri: string,
         body: Object,

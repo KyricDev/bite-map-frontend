@@ -10,7 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import { toast } from "react-toastify";
-import { amber, yellow } from "@mui/material/colors";
+import { amber } from "@mui/material/colors";
 import { CardMedia } from "@mui/material";
 
 export function PlaceCard({
