@@ -37,54 +37,79 @@ function App()
         <h1>BITE<span className='font-color-pink'>MAP</span></h1>
         <h3>Find Your Perfect Dining Spot</h3>
         <p>Discover the best restaurants near you with our easy-to-use restaurant finder tool. Whether you're craving a cozy cafe, a trendy bistro, or a fine dining experience, we've got you covered.</p>
-        <div className='flex flex-center'>
-          <TextField
-            variant='outlined'
-            label='Ask'
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            fullWidth
-          >
-          </TextField>
-          <div style={{
-            width: '20px'
-          }}></div>
-          <Button variant='contained' size='large' onClick={() =>
-          {
-            setLoading(true);
+        <form onSubmit={(event) =>
+        {
+          event.preventDefault();
+          setLoading(true);
 
-            if (canUseLocation) {
-              const geolocation = navigator.geolocation;
+          if (canUseLocation) {
+            const geolocation = navigator.geolocation;
 
-              geolocation.getCurrentPosition((position) =>
-              {
-                const coordinates = position.coords;
-                const lat = coordinates.latitude;
-                const long = coordinates.longitude;
+            geolocation.getCurrentPosition((position) =>
+            {
+              const coordinates = position.coords;
+              const lat = coordinates.latitude;
+              const long = coordinates.longitude;
 
-                SearchService.searchLocation({
-                  latitude: lat,
-                  longitude: long,
-                  query: query,
-                })
-                  .then(async (response) =>
-                  {
-                    setLoading(false);
+              SearchService.searchLocation({
+                latitude: lat,
+                longitude: long,
+                query: query,
+              })
+                .then(async (response) =>
+                {
+                  setLoading(false);
 
-                    const body = (await response.json()) as ResponseModel;
-                    if (body.isError) {
-                      return;
-                    }
+                  const body = (await response.json()) as ResponseModel;
+                  if (body.isError) {
+                    return;
+                  }
 
-                    const data = (body.data as any).results as Restaurant[];
-                    setRestaurants(data);
-                  });
-              });
+                  const data = (body.data as any).results as Restaurant[];
+                  setRestaurants(data);
+                });
+            });
 
-              return;
-            }
-          }}>FIND</Button>
-        </div>
+            return;
+          }
+
+          SearchService.searchLocation({
+            query: query,
+          })
+            .then(async (response) =>
+            {
+              setLoading(false);
+
+              const body = (await response.json()) as ResponseModel;
+              if (body.isError) {
+                return;
+              }
+
+              const data = (body.data as any).results as Restaurant[];
+              setRestaurants(data);
+            });
+        }}>
+          <div className='flex flex-center'>
+            <TextField
+              variant='outlined'
+              label='Ask'
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              fullWidth
+            >
+            </TextField>
+            <div style={{
+              width: '20px'
+            }}></div>
+            <Button
+              variant='contained'
+              size='large'
+              type='submit'
+            >
+              FIND
+            </Button>
+          </div>
+        </form>
         <div className='flex flex-center'>
           <Checkbox
             checked={canUseLocation}
@@ -96,7 +121,7 @@ function App()
           <div style={{
             width: '5px'
           }}></div>
-          <Tooltip title='Using your current location allows better responses'>
+          <Tooltip title='Enabling location allows better responses when no city or state is specified'>
             <InfoIcon />
           </Tooltip>
         </div>
@@ -116,8 +141,8 @@ function App()
           }
         </div>
         <ToastContainer />
-      </div>
-    </ThemeProvider>
+      </div >
+    </ThemeProvider >
   );
 }
 
