@@ -26,8 +26,8 @@ export function PlaceCard({
             height={300}
             style={{
                 width: '30vw',
-                minWidth: '500px',
-                marginBottom: '20px',
+                minWidth: '300px',
+                marginBottom: '30px',
             }}
         />;
     }
@@ -45,7 +45,7 @@ export function PlaceCard({
                 // padding: '20px',
                 width: '30vw',
                 minWidth: '300px',
-                marginBottom: '20px',
+                marginBottom: '30px',
             }}
             className="hover-pointer"
             onClick={() =>
