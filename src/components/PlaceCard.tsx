@@ -10,6 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import { toast } from "react-toastify";
+import { amber, yellow } from "@mui/material/colors";
 
 export function PlaceCard({
     loading = false,
@@ -114,16 +115,22 @@ function RatingDisplay({ rating }: { rating: number; })
     const ratingComponent = [];
     const ratingFloor = Math.floor(rating);
     for (let i = 0; i < ratingFloor; i++) {
-        ratingComponent.push(<StarIcon />);
+        ratingComponent.push(<StarIcon style={{
+            color: amber[500]
+        }} />);
     }
     const hasHalfStar = rating % ratingFloor >= 0.5;
 
     if (hasHalfStar) {
-        ratingComponent.push(<StarHalfIcon />);
+        ratingComponent.push(<StarHalfIcon style={{
+            color: amber[500]
+        }} />);
     }
 
     for (let i = rating; i < (hasHalfStar ? 9 : 10); i++) {
-        ratingComponent.push(<StarBorderIcon />);
+        ratingComponent.push(<StarBorderIcon style={{
+            color: amber[500]
+        }} />);
     }
 
     return <Tooltip title={`${rating}/10`} followCursor>
