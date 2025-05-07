@@ -95,7 +95,10 @@ function App()
               label='Ask'
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              fullWidth
+              sx={{
+                width: '50vw',
+                minWidth: '200px',
+              }}
             >
             </TextField>
             <div style={{

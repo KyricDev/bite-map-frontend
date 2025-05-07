@@ -44,7 +44,7 @@ export function PlaceCard({
             sx={{
                 // padding: '20px',
                 width: '30vw',
-                minWidth: '500px',
+                minWidth: '300px',
                 marginBottom: '20px',
             }}
             className="hover-pointer"
