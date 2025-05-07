@@ -1,14 +1,22 @@
 import Card from "@mui/material/Card";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import StarIcon from '@mui/icons-material/Star';
-import StarHalfIcon from '@mui/icons-material/StarHalf';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import '../index.css';
+import { Restaurant } from "../models/Restaurants";
+import StarIcon from '@mui/icons-material/Star';
+import Tooltip from "@mui/material/Tooltip";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
 
-export function PlaceCard({ loading = false })
+export function PlaceCard({
+    loading = false,
+    restaurant
+}: {
+    loading?: boolean,
+    restaurant?: Restaurant;
+})
 {
     if (loading) {
         return <Skeleton
@@ -21,35 +29,91 @@ export function PlaceCard({ loading = false })
         />;
     }
 
+    if (!restaurant) {
+        return <></>;
+    }
+
     return (
         <Card
             sx={{
                 padding: '20px',
                 width: '30vw',
-                minWidth: '500px'
+                minWidth: '500px',
+                marginBottom: '20px'
             }}
             className="hover-pointer"
         >
             <CardHeader
-                title='The Ember Spoon'
-                subheader='Modern American with a farm-to-table focus'
+                title={restaurant.name}
+                subheader={restaurant.categories.map((category) =>
+                {
+                    return category.name;
+                }).join(', ')}
             />
             <CardContent>
-                $18 - $35 <br />
-                1375 Marlowe Street <br />
-                Crescent Bay, CA 90211 <br />
-                USA <br />
-                <div className="flex">
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarHalfIcon />
-                    <StarBorderIcon />
-                </div>
-                Monday–Thursday: 11:30 AM – 9:00 PM <br />
-                Friday–Saturday: 11:30 AM – 10:30 PM <br />
-                Sunday: 10:00 AM – 8:00 PM (Brunch served until 2 PM) <br />
+                <PriceDisplay price={restaurant.price} />
+                {restaurant.location.formatted_address}
+                {/* <div className="flex">
+                    {restaurant.rating}/10
+                </div> */}
+                <RatingDisplay rating={restaurant.rating} />
+                {restaurant.hours.display ?? 'No Operating Hours Found'}<br />
             </CardContent>
         </Card>
     );
+}
+
+const priceToDiplayMap = new Map();
+priceToDiplayMap.set(1, 'Very Affordable');
+priceToDiplayMap.set(2, 'Affordable');
+priceToDiplayMap.set(3, 'Expensive');
+priceToDiplayMap.set(4, 'Very Expensive');
+
+function PriceDisplay({ price }: { price: number; })
+{
+    // let displayString = '';
+
+    // for (let i = 0; i < price; i++) {
+    //     displayString += '$';
+    // }
+
+    // if (displayString === '') {
+    //     return <div>No Price Information</div>;
+    // }
+
+    // return <div>
+    //     {displayString}
+    // </div>;
+
+    if (price === undefined) {
+        return <div>No Price Information</div>;
+    }
+
+    return <div>{priceToDiplayMap.get(price)}</div>;
+}
+
+function RatingDisplay({ rating }: { rating: number; })
+{
+    if (rating === undefined) {
+        return <div>No Ratings</div>;
+    }
+
+    const ratingComponent = [];
+    const ratingFloor = Math.floor(rating);
+    for (let i = 0; i < ratingFloor; i++) {
+        ratingComponent.push(<StarIcon />);
+    }
+    const hasHalfStar = rating % ratingFloor !== 0;
+
+    if (hasHalfStar) {
+        ratingComponent.push(<StarHalfIcon />)
+    }
+
+    for (let i = rating; i < (hasHalfStar ? 9 : 10) ; i++) {
+        ratingComponent.push(<StarBorderIcon />);
+    }
+
+    return <Tooltip title={rating}>
+        <div className='flex'>{ratingComponent}</div>
+    </Tooltip>;
 }

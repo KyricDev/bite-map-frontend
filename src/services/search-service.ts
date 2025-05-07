@@ -1,4 +1,4 @@
-import { searchUri } from '../src/constants/api-uris';
+import { searchUri } from '../constants/api-uris';
 import { HttpService } from './http-service';
 
 abstract class SearchService {

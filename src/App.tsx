@@ -4,7 +4,9 @@ import { Button, Checkbox, TextField, ThemeProvider, Tooltip, createTheme } from
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from 'react';
 import { PlaceCard } from './components/PlaceCard';
-import { SearchService } from '../services/search-service';
+import { SearchService } from './services/search-service';
+import { ResponseModel } from './models/Response';
+import { Restaurant } from './models/Restaurants';
 
 const theme = createTheme({
   palette: {
@@ -26,6 +28,7 @@ function App()
   const [canUseLocation, setCanUseLocation] = useState(true);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -62,9 +65,18 @@ function App()
                   longitude: long,
                   query: query,
                 })
-                  .then(() => setLoading(false));
-              }, (error) =>
-              {
+                  .then(async (response) =>
+                  {
+                    setLoading(false);
+
+                    const body = (await response.json()) as ResponseModel;
+                    if (body.isError) {
+                      return;
+                    }
+
+                    const data = (body.data as any).results as Restaurant[];
+                    setRestaurants(data);
+                  });
               });
 
               return;
@@ -96,7 +108,12 @@ function App()
             </div>
             :
             <div>
-              <PlaceCard />
+              {
+                restaurants.map((restaurant, index) =>
+                {
+                  return <PlaceCard key={index} restaurant={restaurant}/>
+                })
+              }
             </div>
         }
       </div>
