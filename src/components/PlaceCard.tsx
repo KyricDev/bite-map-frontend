@@ -116,7 +116,7 @@ function RatingDisplay({ rating }: { rating: number; })
     for (let i = 0; i < ratingFloor; i++) {
         ratingComponent.push(<StarIcon />);
     }
-    const hasHalfStar = rating % ratingFloor !== 0;
+    const hasHalfStar = rating % ratingFloor >= 0.5;
 
     if (hasHalfStar) {
         ratingComponent.push(<StarHalfIcon />);
@@ -126,7 +126,7 @@ function RatingDisplay({ rating }: { rating: number; })
         ratingComponent.push(<StarBorderIcon />);
     }
 
-    return <Tooltip title={`${rating}/10`}>
+    return <Tooltip title={`${rating}/10`} followCursor>
         <div className='flex'>{ratingComponent}</div>
     </Tooltip>;
 }
