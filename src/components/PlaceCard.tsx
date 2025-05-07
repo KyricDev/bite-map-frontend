@@ -42,6 +42,14 @@ export function PlaceCard({
                 marginBottom: '20px'
             }}
             className="hover-pointer"
+            onClick={() =>
+            {
+                const website = restaurant.website;
+                if (website === undefined) {
+                    return;
+                }
+                window.open(restaurant.website, '_blank');
+            }}
         >
             <CardHeader
                 title={restaurant.name}
@@ -57,7 +65,7 @@ export function PlaceCard({
                     {restaurant.rating}/10
                 </div> */}
                 <RatingDisplay rating={restaurant.rating} />
-                {restaurant.hours.display ?? 'No Operating Hours Found'}<br />
+                <HoursDisplay hours={restaurant.hours.display} />
             </CardContent>
         </Card>
     );
@@ -106,14 +114,32 @@ function RatingDisplay({ rating }: { rating: number; })
     const hasHalfStar = rating % ratingFloor !== 0;
 
     if (hasHalfStar) {
-        ratingComponent.push(<StarHalfIcon />)
+        ratingComponent.push(<StarHalfIcon />);
     }
 
-    for (let i = rating; i < (hasHalfStar ? 9 : 10) ; i++) {
+    for (let i = rating; i < (hasHalfStar ? 9 : 10); i++) {
         ratingComponent.push(<StarBorderIcon />);
     }
 
-    return <Tooltip title={rating}>
+    return <Tooltip title={`${rating}/10`}>
         <div className='flex'>{ratingComponent}</div>
     </Tooltip>;
+}
+
+function HoursDisplay({ hours }: { hours: string; })
+{
+    if (hours === undefined) return <div>No Operating Hours Found</div>;
+
+    const hoursSplit = hours.split('; ');
+
+    return <div>
+        {
+            hoursSplit.map((operation, index) =>
+            {
+                return <div key={index}>
+                    {operation}
+                </div>;
+            })
+        }
+    </div>;
 }

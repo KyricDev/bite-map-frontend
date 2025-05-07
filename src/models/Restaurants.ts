@@ -102,6 +102,7 @@ class Restaurant {
     rating: number;
     tips: Tip[];
     location: Location;
+    website: string;
 
     constructor(data: any) {
         this.categories = data.categories.map((cat: any) => new Category(cat));
@@ -112,7 +113,8 @@ class Restaurant {
         this.price = data.price;
         this.rating = data.rating;
         this.tips = data.tips.map((tip: any) => new Tip(tip));
-        this.location = new Location(data.location)
+        this.location = new Location(data.location);
+        this.website = data.website;
     }
 }
 
