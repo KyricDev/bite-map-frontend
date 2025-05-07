@@ -47,6 +47,14 @@
   align-items: center;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.space-evenly {
+  justify-content: space-evenly;
+}
+
 h4{
   margin: 0;
 }

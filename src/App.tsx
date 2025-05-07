@@ -43,6 +43,7 @@ function App()
             label='Ask'
             value={query}
             onChange={(event) => setQuery(event.target.value)}
+            fullWidth
           >
           </TextField>
           <div style={{
@@ -99,24 +100,21 @@ function App()
             <InfoIcon />
           </Tooltip>
         </div>
-        {
-          loading ?
-            <div>
-              {[0, 1, 2,].map((value) =>
+        <div className='flex space-evenly flex-wrap'>
+          {
+            loading ?
+              [0, 1, 2, 3, 4, 5].map((value) =>
               {
                 return <PlaceCard key={value} loading />;
-              })}
-            </div>
-            :
-            <div>
+              })
+              :
+              restaurants.map((restaurant, index) =>
               {
-                restaurants.map((restaurant, index) =>
-                {
-                  return <PlaceCard key={index} restaurant={restaurant}/>
-                })
-              }
-            </div>
-        }
+                return <PlaceCard key={index} restaurant={restaurant} />;
+              })
+
+          }
+        </div>
         <ToastContainer />
       </div>
     </ThemeProvider>
