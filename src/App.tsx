@@ -8,7 +8,7 @@ import { SearchService } from './services/search-service';
 import { ResponseModel } from './models/Response';
 import { Restaurant } from './models/Restaurants';
 import { ToastContainer } from 'react-toastify';
-import { ErrorModel } from './models/error';
+import { ErrorModel } from './models/Error';
 
 const theme = createTheme({
   palette: {
