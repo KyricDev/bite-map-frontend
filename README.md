@@ -32,7 +32,7 @@ You can try the live application [here](https://bite-map.vercel.app/).
 
         2. Run the image
         ```
-          docker run -p 5173:5173 <image-name
+          docker run -p 5173:5173 <image-name>
         ```
 
         3. Navigate to [http://localhost:5173](http://localhost:5173)
@@ -46,4 +46,4 @@ You can try the live application [here](https://bite-map.vercel.app/).
 
         2. Navigate to [http://localhost:5173](http://localhost:5173)
 
-4. Note that running this locally only runs the frontend. If you want full functionality of the app, you'll need to run the backend code [here](https://github.com/KyricDev/bite-map-backend).
+4. Note that running this locally only runs the frontend. If you want full functionality of the app, you'll need to run the backend code in conjunction with the app [here](https://github.com/KyricDev/bite-map-backend).
