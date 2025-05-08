@@ -1,6 +1,6 @@
 import './App.css';
 import './index.css';
-import { Button, Checkbox, Divider, TextField, ThemeProvider, Tooltip, createTheme } from '@mui/material';
+import { Button, Checkbox,  TextField, ThemeProvider, Tooltip, createTheme } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from 'react';
 import { PlaceCard } from './components/PlaceCard';
@@ -8,7 +8,7 @@ import { SearchService } from './services/search-service';
 import { ResponseModel } from './models/Response';
 import { Restaurant } from './models/Restaurants';
 import { ToastContainer } from 'react-toastify';
-import { ErrorModel } from './models/Error';
+import { ErrorModel } from './models/error';
 
 const theme = createTheme({
   palette: {
