@@ -12,6 +12,7 @@ import StarHalfIcon from '@mui/icons-material/StarHalf';
 import { toast } from "react-toastify";
 import { amber } from "@mui/material/colors";
 import { CardMedia } from "@mui/material";
+import HideImageIcon from '@mui/icons-material/HideImage';
 
 export function PlaceCard({
     loading = false,
@@ -37,7 +38,7 @@ export function PlaceCard({
     }
 
     const photo = restaurant.photos[0];
-    const image = photo !== undefined ? restaurant.photos[0].prefix + '1440x1080' +restaurant.photos[0].suffix : ''
+    const image = photo !== undefined ? restaurant.photos[0].prefix + '1440x1080' + restaurant.photos[0].suffix : '';
 
     return (
         <Card
@@ -61,12 +62,33 @@ export function PlaceCard({
                 window.open(restaurant.website, '_blank');
             }}
         >
-            <CardMedia 
-                component='img'
-                alt={`${restaurant.name} photo`}
-                height={200}
-                image={image}
-            />
+            {
+                image !== '' ?
+                    <CardMedia
+                        component='img'
+                        alt={`${restaurant.name} photo`}
+                        height='200px'
+                        image={image}
+                    />
+                    :
+                    <CardContent sx={
+                        {
+                            height: '200px',
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            padding: '0',
+                        }
+                    }>
+                        <HideImageIcon sx={
+                            {
+                                height: '100px',
+                                width: '100%',
+                            }
+                        }/>
+                    </CardContent>
+            }
             <CardHeader
                 title={restaurant.name}
                 subheader={restaurant.categories.map((category) =>
