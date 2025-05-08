@@ -1,6 +1,6 @@
 import './App.css';
 import './index.css';
-import { Button, Checkbox, TextField, ThemeProvider, Tooltip, createTheme } from '@mui/material';
+import { Button, Checkbox, Divider, TextField, ThemeProvider, Tooltip, createTheme } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from 'react';
 import { PlaceCard } from './components/PlaceCard';
@@ -8,6 +8,7 @@ import { SearchService } from './services/search-service';
 import { ResponseModel } from './models/Response';
 import { Restaurant } from './models/Restaurants';
 import { ToastContainer } from 'react-toastify';
+import { ErrorModel } from './models/Error';
 
 const theme = createTheme({
   palette: {
@@ -30,6 +31,7 @@ function App()
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [error, setError] = useState('');
 
   return (
     <ThemeProvider theme={theme}>
@@ -40,6 +42,7 @@ function App()
         <form onSubmit={(event) =>
         {
           event.preventDefault();
+          setError('');
           setLoading(true);
 
           if (canUseLocation) {
@@ -62,13 +65,17 @@ function App()
 
                   const body = (await response.json()) as ResponseModel;
                   if (body.isError) {
+                    const errorModel = new ErrorModel(body.data);
+                    setError(errorModel.message);
                     return;
                   }
 
                   const data = (body.data as any).results as Restaurant[];
                   setRestaurants(data);
-                });
-            });
+                }
+                );
+            }
+            );
 
             return;
           }
@@ -128,19 +135,23 @@ function App()
             <InfoIcon />
           </Tooltip>
         </div>
-        <div className='flex space-evenly flex-wrap'>
+        <div className='flex space-evenly flex-wrap' style={{
+          width: '100%'
+        }}>
           {
-            loading ?
-              [0, 1, 2, 3, 4, 5].map((value) =>
-              {
-                return <PlaceCard key={value} loading />;
-              })
+            error !== '' ?
+              <div>{error}</div>
               :
-              restaurants.map((restaurant, index) =>
-              {
-                return <PlaceCard key={index} restaurant={restaurant} />;
-              })
-
+              loading ?
+                [0, 1, 2, 3, 4, 5].map((value) =>
+                {
+                  return <PlaceCard key={value} loading />;
+                })
+                :
+                restaurants.map((restaurant, index) =>
+                {
+                  return <PlaceCard key={index} restaurant={restaurant} />;
+                })
           }
         </div>
         <ToastContainer />
