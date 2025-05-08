@@ -48,7 +48,7 @@ export function PlaceCard({
                 minWidth: '300px',
                 marginBottom: '30px',
             }}
-            className="hover-pointer"
+            className="hover-pointer fade-in"
             onClick={() =>
             {
                 const website = restaurant.website;

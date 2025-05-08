@@ -67,3 +67,23 @@ h4{
   cursor: pointer;
   box-shadow: 1px 1px 10px 1px rgb(150, 150, 150);
 }
+
+.fade-in {
+  animation: fadeInAnimation 250ms ease-in-out; 
+}
+
+@keyframes fadeInAnimation {
+  from {
+      opacity: 0%;
+      transform: translateY(10%);
+  }
+
+  to {
+      opacity: 100%;
+      transform: translateY(0%);
+  }
+}
+
+.transition-250{
+  transition: all 250ms ease-in-out;
+}

@@ -35,8 +35,21 @@ function App()
 
   return (
     <ThemeProvider theme={theme}>
-      <div className='flex flex-column flex-center'>
-        <h1>BITE<span className='font-color-pink'>MAP</span></h1>
+      <div
+        className='flex flex-column flex-center'
+      >
+        <div
+          style={{
+            height: (restaurants.length !== 0 || loading) ? '0px' : '150px'
+          }}
+          className='transition-250'
+        ></div>
+        <h1>
+          BITE
+          <span className='font-color-pink'>
+            MAP
+          </span>
+        </h1>
         <h3>Find Your Perfect Dining Spot</h3>
         <p>Discover the best restaurants near you with our easy-to-use restaurant finder tool. Whether you're craving a cozy cafe, a trendy bistro, or a fine dining experience, we've got you covered.</p>
         <form onSubmit={(event) =>
@@ -61,17 +74,18 @@ function App()
               })
                 .then(async (response) =>
                 {
-                  setLoading(false);
 
                   const body = (await response.json()) as ResponseModel;
                   if (body.isError) {
                     const errorModel = new ErrorModel(body.data);
                     setError(errorModel.message);
+                    setLoading(false);
                     return;
                   }
 
                   const data = (body.data as any).results as Restaurant[];
                   setRestaurants(data);
+                  setLoading(false);
                 }
                 );
             }
@@ -85,15 +99,18 @@ function App()
           })
             .then(async (response) =>
             {
-              setLoading(false);
 
               const body = (await response.json()) as ResponseModel;
               if (body.isError) {
+                const errorModel = new ErrorModel(body.data);
+                setError(errorModel.message);
+                setLoading(false);
                 return;
               }
 
               const data = (body.data as any).results as Restaurant[];
               setRestaurants(data);
+              setLoading(false);
             });
         }}>
           <div className='flex flex-center'>
